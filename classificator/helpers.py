@@ -1,0 +1,21 @@
+def tokenizer(text):
+    result = text
+    result = result.replace('.', ' . ')
+    result = result.replace(' . . . ', ' ... ')
+    result = result.replace(',', ' , ')
+    result = result.replace(':', ' : ')
+    result = result.replace(';', ' ; ')
+    result = result.replace('!', ' ! ')
+    result = result.replace('?', ' ? ')
+    result = result.replace('\"', ' \" ')
+    result = result.replace('\'', ' \' ')
+    result = result.replace('(', ' ( ')
+    result = result.replace(')', ' ) ') 
+    result = result.replace(' ', ' ')
+    result = result.replace(' ', ' ')
+    result = result.replace(' ', ' ')
+    result = result.replace(' ', ' ')
+    result = result.replace('^', ' ^ ')
+    result = result.strip()
+    result = result.split(' ')
+    return result

@@ -8,8 +8,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalMaxPooling1D
-from nltk.tokenize import word_tokenize
-from keras.datasets import imdb
+import gc;
 
 params = config.getParams()
 
@@ -61,7 +60,7 @@ def fit(x_train, y_train):
 		batch_size=params['batch_size'],
 		epochs=params['epochs'],
 	)
-
+	gc.collect()
 	return model	
 
 def getFitted(filename):

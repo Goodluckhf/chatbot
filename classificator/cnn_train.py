@@ -1,28 +1,20 @@
-'''This example demonstrates the use of Convolution1D for text classification.
+#coding: utf-8
 
-Gets to 0.89 test accuracy after 2 epochs.
-90s/epoch on Intel i5 2.4Ghz CPU.
-10s/epoch on Tesla K40 GPU.
-
+'''
 КЛАССЫ:
 0 - Беседа
 1 - Контакты
 2 - Форма запроса
 3 - Доставка
 '''
-#coding: utf-8
 from __future__ import print_function
 import json
 import numpy as np
 import codecs
 import config
 import model
+import helpers
 from keras.preprocessing import sequence
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation
-from keras.layers import Embedding
-from keras.layers import Conv1D, GlobalMaxPooling1D
-from nltk.tokenize import word_tokenize
 
 x_train = []
 y_train = []
@@ -31,30 +23,7 @@ x_test = []
 y_test = []
 
 tokens = []
-
 params = config.getParams()
-
-def tokenizer(text):
-    result = text
-    result = result.replace('.', ' . ')
-    result = result.replace(' . . . ', ' ... ')
-    result = result.replace(',', ' , ')
-    result = result.replace(':', ' : ')
-    result = result.replace(';', ' ; ')
-    result = result.replace('!', ' ! ')
-    result = result.replace('?', ' ? ')
-    result = result.replace('\"', ' \" ')
-    result = result.replace('\'', ' \' ')
-    result = result.replace('(', ' ( ')
-    result = result.replace(')', ' ) ') 
-    result = result.replace(' ', ' ')
-    result = result.replace(' ', ' ')
-    result = result.replace(' ', ' ')
-    result = result.replace(' ', ' ')
-    result = result.replace('^', ' ^ ')
-    result = result.strip()
-    result = result.split(' ')
-    return result
 
 def print_array(array):
     for item in array:
@@ -79,15 +48,17 @@ def prepare_data(dataset):
 #           maxlen = len(record['text'])
         text += record['text']+" "
         y_train.append(class_to_binary(record['status']))    
-    tokens = tokenizer(text.lower())    
-    unique_tokens = set(tokens);                   
+    tokens = helpers.tokenizer(text.lower())    
+    unique_tokens = set(tokens); 
+    print('tokens length: ', len(unique_tokens))
+    #exit()
     i = 1
     dictionary['unknown'] = 0                   
     for item in unique_tokens:
         dictionary[item] = i
         i +=1  
     for record in dataset:
-        tokenize = tokenizer(record['text'])
+        tokenize = helpers.tokenizer(record['text'])
         temp = []
         for item in tokenize:
             temp.append(dictionary[item.lower()])    
@@ -95,20 +66,13 @@ def prepare_data(dataset):
     np.save('tokenDictionary',dictionary)    
     return(x_train,y_train)
         
-        
-
-#f = open('D:\toolkits\data.json','r')
-jsonfile = codecs.open( 'D:\\toolkits\\NEW_DATA.json', 'r', 'utf_8_sig')
+jsonfile = codecs.open( params['corpus'], 'r', 'utf_8_sig')
 data = json.loads(jsonfile.read())
 test_data = (x_test,y_test)
 x_train,y_train = prepare_data(data)
 # set parameters:
 
 print('Loading data...')
-#(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)
-
-
-
 print(len(x_train), 'train sequences')
 print(len(x_test), 'test sequences')
 

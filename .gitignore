@@ -1,3 +1,4 @@
-/classificator/__pycache__/*
+__pycache__/*
 /classificator/myModel.h5
 /classificator/tokenDictionary.npy
+*.pyc
