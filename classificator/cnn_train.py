@@ -14,6 +14,8 @@ import codecs
 import config
 import model
 import helpers
+import predictor
+from sklearn import metrics
 from keras.preprocessing import sequence
 
 x_train = []
@@ -88,3 +90,5 @@ print('Build model...')
 model = model.fit(x_train,y_train)
 
 model.save_weights('myModel.h5',overwrite=True)
+
+print(metrics.f1_score(y_test,predictor.predict_list(y_test)))
