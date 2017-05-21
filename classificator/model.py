@@ -3,6 +3,8 @@ import json
 import numpy as np
 import codecs
 import config
+import extra_metrics
+from sklearn import metrics
 from keras.preprocessing import sequence
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
@@ -41,13 +43,30 @@ def getModel():
 
 	return model
 
+#def f1_score(tags, predicted):
+#
+#   tags = set(tags)
+#    predicted = set(predicted)
+
+#    tp = len(tags & predicted)
+#    fp = len(predicted) - tp 
+#    fn = len(tags) - tp
+
+#    if tp>0:
+#        precision=float(tp)/(tp+fp)
+#        recall=float(tp)/(tp+fn)
+#        return 2*((precision*recall)/(precision+recall))
+#    else:
+#        return 0
+
+
 def getModelForTrain(x_train, y_train):
 	model = getModel()
 
 	model.compile(
 		loss='categorical_crossentropy',
 		optimizer='adam',
-		metrics=['accuracy']
+		metrics=[extra_metrics.fmeasure,'accuracy']
 	)
 
 	return model

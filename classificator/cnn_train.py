@@ -41,6 +41,7 @@ def class_to_binary(status):
     if status == '3':
         return [0,0,0,1]
 
+
 def prepare_data(dataset):
     dictionary = dict()
     text = ""
@@ -48,8 +49,13 @@ def prepare_data(dataset):
     for record in dataset:
 #        if len(record['text']) > maxlen:
 #           maxlen = len(record['text'])
-        text += record['text']+" "
-        y_train.append(class_to_binary(record['status']))    
+        if(int(record['id']) > 1587):
+            text += record['text']+" "
+            y_test.append(class_to_binary(record['status']))
+        else:    
+            text += record['text']+" "
+            y_train.append(class_to_binary(record['status']))  
+     
     tokens = helpers.tokenizer(text.lower())    
     unique_tokens = set(tokens); 
     print('tokens length: ', len(unique_tokens))
@@ -60,20 +66,34 @@ def prepare_data(dataset):
         dictionary[item] = i
         i +=1  
     for record in dataset:
-        tokenize = helpers.tokenizer(record['text'])
-        temp = []
-        for item in tokenize:
-            temp.append(dictionary[item.lower()])    
-        x_train.append(temp)
+        if(int(record['id']) > 1587):
+            tokenize = helpers.tokenizer(record['text'])
+            temp1 = []
+            for item in tokenize:
+                temp1.append(dictionary[item.lower()])    
+            x_test.append(temp1)
+        else:   
+            tokenize = helpers.tokenizer(record['text'])
+            temp = []
+            for item in tokenize:
+                temp.append(dictionary[item.lower()])    
+            x_train.append(temp)
     np.save('tokenDictionary',dictionary)    
-    return(x_train,y_train)
+    return(x_train,y_train,x_test,y_test)
         
 jsonfile = codecs.open( params['corpus'], 'r', 'utf_8_sig')
 data = json.loads(jsonfile.read())
 test_data = (x_test,y_test)
-x_train,y_train = prepare_data(data)
-# set parameters:
+x_train,y_train,x_test,y_test = prepare_data(data)
 
+#print('len(x_train) = ', len(x_train))
+#print('len(y_train) = ', len(y_train))
+#print(x_test)
+#print('len(y_test) = ' ,len(y_test))
+#exit()
+
+
+# set parameters:
 print('Loading data...')
 print(len(x_train), 'train sequences')
 print(len(x_test), 'test sequences')
@@ -86,9 +106,22 @@ x_test = sequence.pad_sequences(x_test, maxlen=params['maxlen'])
 print('x_train shape:', x_train.shape)
 print('x_test shape:', x_test.shape)
 
+#print(y_test[1])
+#print(x_test[1])
+#exit()
+preds = predictor.predict_list(x_test,'first_model')
+#print(preds.argmax(axis=1))
+print('y_test = ',y_test)
+print('pred = ', preds)
+
+#exit()
+#print(f1_score(y_test,preds))
+#exit()
+
+
 print('Build model...')
 model = model.fit(x_train,y_train)
 
 model.save_weights('myModel.h5',overwrite=True)
 
-print(metrics.f1_score(y_test,predictor.predict_list(y_test)))
+
