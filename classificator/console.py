@@ -16,7 +16,7 @@ def getNameByPred(pred):
 def chat_loop():
     while True:
         user_input = str(input(">>>>>").lower().strip())
-        output = getNameByPred(predictor.predict(user_input))
+        output = getNameByPred(predictor.predict(user_input,'first_model'))
         print(output)
 
 if __name__ == "__main__":

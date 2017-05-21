@@ -12,11 +12,14 @@ import config
 import model
 import helpers
 
+
 config = config.getParams()
-model = model.getFitted(config['fitted_model'])
 read_dictionary = np.load(config['model_dict']).item()
 
-def predict(text_input):
+
+
+def predict(text_input,model_name):
+    model1 = model.getFitted(config[model_name])
     tokenize = helpers.tokenizer(text_input)
     temp = np.zeros((1, config['maxlen']), dtype=np.integer)
     for t, item in enumerate(tokenize):
@@ -25,7 +28,12 @@ def predict(text_input):
         else:
             temp[0, t] = 0
     
-    test = model.predict(temp)[0]
+    test = model1.predict(temp)[0]
     return test
     
+def predict_list(test_list,model_name):
+    model2 = model.getFitted(config[model_name])
+
     
+    test = model2.predict(test_list)
+    return test

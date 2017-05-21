@@ -9,6 +9,8 @@ def getParams():
 		'hidden_dims' : 250,
 		'epochs' : 10,
 		'model_dict': 'tokenDictionary.npy',
-		'fitted_model': 'myModel.h5',
+		'first_model': 'myModel.h5',
+		'second_model': '',
+		'thirty_model':'',
 		'corpus': 'NEW_DATA.json'
 	}
