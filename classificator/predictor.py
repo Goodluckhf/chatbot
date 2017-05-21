@@ -14,11 +14,9 @@ import helpers
 
 
 config = config.getParams()
-read_dictionary = np.load(config['model_dict']).item()
-
-
 
 def predict(text_input,model_name):
+    read_dictionary = np.load(config['model_dict']).item()
     model1 = model.getFitted(config[model_name])
     tokenize = helpers.tokenizer(text_input)
     temp = np.zeros((1, config['maxlen']), dtype=np.integer)
@@ -33,7 +31,6 @@ def predict(text_input,model_name):
     
 def predict_list(test_list,model_name):
     model2 = model.getFitted(config[model_name])
-
-    
+    print('list', test_list);
     test = model2.predict(test_list)
     return test
