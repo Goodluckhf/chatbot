@@ -145,7 +145,7 @@ class Chatbot:
         # General initialisation
 
         self.args = self.parseArgs(args)
-
+        print(args);
         if not self.args.rootDir:
             self.args.rootDir = os.getcwd()  # Use the current working directory
 
@@ -524,6 +524,7 @@ class Chatbot:
 
         # If there is a previous model, restore some parameters
         configName = os.path.join(self.modelDir, self.CONFIG_FILENAME)
+        print('modelDir', configName)
         if not self.args.reset and not self.args.createDataset and os.path.exists(configName):
             # Loading
             config = configparser.ConfigParser()

@@ -241,6 +241,7 @@ class TextData:
     def loadCorpus(self):
         """Load/create the conversations data
         """
+        print('load', self.filteredSamplesPath)
         datasetExist = os.path.isfile(self.filteredSamplesPath)
         if not datasetExist:  # First time we load the database: creating all files
             print('Training samples not found. Creating dataset...')

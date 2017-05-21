@@ -132,7 +132,6 @@
 		font-weight: 300;
 		line-height: 2;
 		letter-spacing: 0.2em;
-		text-transform: uppercase;
 	}
 
 		@media screen and (max-width: 1680px) {
@@ -246,7 +245,7 @@
 		border-bottom: solid 1px #c8cccf;
 		margin: 3em 0;
 	}
-
+#
 /* Form */
 
 	form {
@@ -777,13 +776,13 @@
         }
 
 		.question {
-            text-align: right;
+            text-align: left;
             margin: 0 0 0.1em 0;
         }
 
         .answer {
             text-align: left;
-            margin: 0 0 0.3em 0;
+            margin: 0 0 20px 0;
         }
 
 /* Footer */
@@ -850,11 +849,6 @@
 
 		#wrapper > * {
 			z-index: 1;
-		}
-
-		#wrapper:before {
-			content: '';
-			display: block;
 		}
 
 		@media screen and (max-width: 360px) {
