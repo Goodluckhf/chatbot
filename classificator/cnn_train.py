@@ -17,6 +17,7 @@ import helpers
 import predictor
 from sklearn import metrics
 from keras.preprocessing import sequence
+import gc
 
 x_train = []
 y_train = []
@@ -86,10 +87,10 @@ data = json.loads(jsonfile.read())
 test_data = (x_test,y_test)
 x_train,y_train,x_test,y_test = prepare_data(data)
 
-#print('len(x_train) = ', len(x_train))
-#print('len(y_train) = ', len(y_train))
-#print(x_test)
-#print('len(y_test) = ' ,len(y_test))
+print('len(x_train) = ', len(x_train))
+print('len(y_train) = ', len(y_train))
+print('x_test = ', len(x_test))
+print('len(y_test) = ' ,len(y_test))
 #exit()
 
 
@@ -106,22 +107,10 @@ x_test = sequence.pad_sequences(x_test, maxlen=params['maxlen'])
 print('x_train shape:', x_train.shape)
 print('x_test shape:', x_test.shape)
 
-#print(y_test[1])
-#print(x_test[1])
-#exit()
-preds = predictor.predict_list(x_test,'first_model')
-#print(preds.argmax(axis=1))
-print('y_test = ',y_test)
-print('pred = ', preds)
-
-#exit()
-#print(f1_score(y_test,preds))
-#exit()
-
-
 print('Build model...')
 model = model.fit(x_train,y_train)
+model.save_weights(params['first_model'],overwrite=True)
 
-model.save_weights('myModel.h5',overwrite=True)
-
+preds = predictor.predict_list(x_test,'first_model')
+gc.collect()
 

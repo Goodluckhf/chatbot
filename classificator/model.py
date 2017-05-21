@@ -10,7 +10,8 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalMaxPooling1D
-import gc;
+import gc
+gc.collect()
 
 params = config.getParams()
 
@@ -68,7 +69,7 @@ def getModelForTrain(x_train, y_train):
 		optimizer='adam',
 		metrics=[extra_metrics.fmeasure,'accuracy']
 	)
-
+	gc.collect()
 	return model
 
 def fit(x_train, y_train):
@@ -90,5 +91,5 @@ def getFitted(filename):
 		optimizer='adam',
 		metrics=['accuracy']
 	)
-
+	gc.collect()
 	return model
