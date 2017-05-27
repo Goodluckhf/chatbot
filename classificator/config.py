@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path # if you haven't already done so
-root = str(Path(__file__).resolve().parents[1])
+path_file = Path(__file__)
+root = str(path_file.resolve().parents[1])
+print(Path(root).joinpath('classificator/myModel.h5'))
 
 def getParams():
 	return {
@@ -12,9 +14,9 @@ def getParams():
 		'kernel_size' : 5,
 		'hidden_dims' : 100,
 		'epochs' : 10,
-		'model_dict': root + '/classificator/tokenDictionary.npy',
-		'first_model': root + '/classificator/myModel.h5',
-		'second_model': root + '/myModel_1.h5',
+		'model_dict': str(Path(root).joinpath('classificator/tokenDictionary.npy')),
+		'first_model':str(Path(root).joinpath('classificator/myModel.h5')),
+		'second_model':str(Path(root).joinpath('classificator/myModel_1.h5')),
 		'thirty_model':'',
-		'corpus': root + '/classificator/NEW_DATA.json'
+		'corpus': str(Path(root).joinpath('classificator/NEW_DATA.json'))
 	}
