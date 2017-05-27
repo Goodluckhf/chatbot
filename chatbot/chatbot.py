@@ -34,7 +34,7 @@ root = str(Path(__file__).resolve().parents[1])
 sys.path.append(root)
 from chatbot.textdata import TextData
 from chatbot.model import Model
-from classificator import predictor as classificatorPredictor
+from classificator.predictor import Predictor as ClassificatorPredictor
 
 class Chatbot:
     """
@@ -66,7 +66,7 @@ class Chatbot:
 
         # TensorFlow main session (we keep track for the daemon)
         self.sess = None
-
+        self.classificator = None;
         # Filename and directories constants
         self.MODEL_DIR_BASE = 'save/model'
         self.MODEL_NAME_BASE = 'model'
@@ -190,7 +190,7 @@ class Chatbot:
 
         print('Initialize variables...')
         self.sess.run(tf.global_variables_initializer())
-
+        self.classificator = ClassificatorPredictor('second_model')
         # Reload the model eventually (if it exist.), on testing mode, the models are not loaded here (but in predictTestset)
         if self.args.test != Chatbot.TestMode.ALL:
             self.managePreviousModel(self.sess)
@@ -379,7 +379,7 @@ class Chatbot:
         2 - Форма запроса
         3 - Доставка
         '''
-        predictedIntent = classificatorPredictor.predict(sentence, 'first_model').argmax()
+        predictedIntent = self.classificator.predict(sentence).argmax()
         print('class>>>', predictedIntent)
 
         if predictedIntent == 1: 
