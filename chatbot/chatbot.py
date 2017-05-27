@@ -18,7 +18,6 @@ Main script. See README.md for more information
 
 Use python 3
 """
-
 import argparse  # Command line parsing
 import configparser  # Saving the models parameters
 import datetime  # Chronometer
@@ -29,10 +28,13 @@ import math
 
 from tqdm import tqdm  # Progress bar
 from tensorflow.python import debug as tf_debug
-
+import sys
+from pathlib import Path # if you haven't already done so
+root = str(Path(__file__).resolve().parents[1])
+sys.path.append(root)
 from chatbot.textdata import TextData
 from chatbot.model import Model
-
+from classificator import predictor as classificatorPredictor
 
 class Chatbot:
     """
@@ -370,6 +372,21 @@ class Chatbot:
         Return:
             str: the human readable sentence
         """
+        '''
+        КЛАССЫ:
+        0 - Беседа
+        1 - Контакты
+        2 - Форма запроса
+        3 - Доставка
+        '''
+        predictedIntent = classificatorPredictor.predict(sentence, 'first_model').argmax()
+        print('class>>>', predictedIntent)
+
+        if predictedIntent == 1: 
+            return "Вы можете нас насти по адресу Ростов-на-Дону, улица Социалистическая 162"
+        if predictedIntent == 3:
+            return "У нас доставка по городу осуществляется бесплатно" 
+
         return self.textData.sequence2str(
             self.singlePredict(sentence),
             clean=True

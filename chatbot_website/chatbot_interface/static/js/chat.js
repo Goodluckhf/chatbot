@@ -12,7 +12,7 @@ $(function() {
 
     chatBotManager.on('newMessage', function(message) {
         chat_zone.append(
-            $("<p class='answer'></p>").text('Bot: ' + message)
+            $("<p class='answer'></p>").text('Бот: ' + message)
         );
 
         if(isNeedSroll()) {
@@ -32,7 +32,7 @@ $(function() {
             chatBotManager.send(message_val);
             message_elem.val('').focus();
             chat_zone.append(
-                $("<p class='question'></p>").text('You: ' + message_val)
+                $("<p class='question'></p>").text('Вы: ' + message_val)
             );
         }
         catch(err) {

@@ -11,13 +11,18 @@ from __future__ import print_function
 import json
 import numpy as np
 import codecs
-import config
-import model
-import helpers
-import predictor
+import sys
+from pathlib import Path # if you haven't already done so
+root = str(Path(__file__).resolve().parents[1])
+sys.path.append(root)
+from classificator import config
+from classificator import model
+from classificator import helpers
+from classificator import predictor
 from sklearn import metrics
 from keras.preprocessing import sequence
 import gc
+gc.collect()
 
 x_train = []
 y_train = []

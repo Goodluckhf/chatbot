@@ -1,9 +1,14 @@
 from __future__ import print_function
+import sys
+from pathlib import Path # if you haven't already done so
+root = str(Path(__file__).resolve().parents[1])
+sys.path.append(root)
 import json
 import numpy as np
 import codecs
-import config
-import extra_metrics
+import importlib.machinery
+from classificator import config
+from classificator import extra_metrics
 from sklearn import metrics
 from keras.preprocessing import sequence
 from keras.models import Sequential
