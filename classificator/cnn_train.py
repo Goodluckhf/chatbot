@@ -114,8 +114,8 @@ print('x_test shape:', x_test.shape)
 
 print('Build model...')
 model = model.fit(x_train,y_train)
-model.save_weights(params['first_model'],overwrite=True)
+model.save_weights(params['second_model'],overwrite=True)
 
-preds = predictor.predict_list(x_test,'first_model')
+preds = predictor.predict_list(x_test,'second_model')
 gc.collect()
 
