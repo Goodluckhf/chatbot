@@ -774,7 +774,23 @@
         #chat_zone {
 			font-size: 0.9em;
         }
+        #chat_zone span.title {
+        	color:tomato;
+        	display: flex;
+        	justify-content: center;
+        }
 
+		#chat_zone img {
+			height: 300px;
+			margin: 0 auto;
+			display: flex;
+        	justify-content: center;
+		}
+		#chat_zone .price {
+			color:tomato;
+			display: flex;
+        	justify-content: center;
+		}
 		.question {
             text-align: left;
             margin: 0 0 0.1em 0;
@@ -783,6 +799,7 @@
         .answer {
             text-align: left;
             margin: 0 0 20px 0;
+            flex-wrap: wrap;
         }
 
 /* Footer */

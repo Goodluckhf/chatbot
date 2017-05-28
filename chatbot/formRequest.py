@@ -1,4 +1,6 @@
 import random
+import re
+
 
 class FormRequest:
 
@@ -20,10 +22,10 @@ class FormRequest:
 			]
 		},
 		2: {
-			'type': 'Разрешение',
+			'type': 'Память',
 			'question': [
-				"Какое разрешение экрана вы хотите?",
-				"Скажите ваше предпочтение по разрешению экрана"
+				"Сколько памяти вам нужно?",
+				"Какой объем памяти вы хотите?"
 			]
 		} 
 	}
@@ -53,9 +55,31 @@ class FormRequest:
 		return self.getAllAnswers(), True
 
 	def getAllAnswers(self):
+		import sys
+		from pathlib import Path
+		root = str(Path(__file__).resolve().parents[1])
+		sys.path.append(root)
+		from chatbot_interface.models import Phone
+
 		allAnswer = "Вы хотите телефон с такими характиристиками: <br>"
 		for i, elem in enumerate(self.answers):
 			allAnswer += FormRequest.questions[elem - 1]['type'] + ": " + self.answers[elem] + "; <br>"
+		try:
+			print("Цена >>>>", self.getDigits(self.answers[2]))
+			print("Память >>>>", self.getDigits(self.answers[3]))
+			print("Цвет >>>>", self.answers[1])
+			phone = Phone.objects.filter(
+				price__lt  = self.getDigits(self.answers[2]),
+				memory__gt = self.getDigits(self.answers[3]),
+				color      = self.answers[1]
+			).order_by("?").first()
+		except Phone.DoesNotExist:
+			return allAnswer + "<br> <span style='color:tomato'>По вашему запрому ничего не найдено!</span>"
+		if not phone:
+			return allAnswer + "<br> <span style='color:tomato'>По вашему запрому ничего не найдено!</span>"
+		
+		return allAnswer + "Вот что я нашел:<br> <span class='title'>" + phone.title + "</span><img src='/static" + phone.image + "'><span class='price'>Цена: " + str(phone.price) + " Рублей.</span>"
 
-		return allAnswer
-
+	def getDigits(self, sentence):
+		regexp = re.compile(r'\d+')
+		return regexp.findall(sentence)[0]

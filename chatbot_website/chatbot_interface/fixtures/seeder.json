@@ -1,0 +1,52 @@
+[
+  {
+    "model": "chatbot_interface.Phone",
+    "fields": {
+      "title": "Iphone 5s",
+      "color": "серый",
+      "price": 15000,
+      "image": "/images/phones/iphone5s.png",
+      "memory": 16
+    }
+  },
+  {
+    "model": "chatbot_interface.Phone",
+    "fields": {
+      "title": "Iphone 6",
+      "color": "черный",
+      "price": 25000,
+      "image": "/images/phones/iphone6.jpeg",
+      "memory": 64
+    }
+  },
+  {
+    "model": "chatbot_interface.Phone",
+    "fields": {
+      "title": "Samsung galaxy s6",
+      "color": "зеленый",
+      "price": 23500,
+      "image": "/images/phones/galaxys6.png",
+      "memory": 32
+    }
+  },
+  {
+    "model": "chatbot_interface.Phone",
+    "fields": {
+      "title": "Samsung galaxy s8",
+      "color": "черный",
+      "price": 55000,
+      "image": "/images/phones/galaxys8.png",
+      "memory": 64
+    }
+  },
+  {
+    "model": "chatbot_interface.Phone",
+    "fields": {
+      "title": "Iphone 7",
+      "color": "красный",
+      "price": 60000,
+      "image": "/images/phones/iphone7.png",
+      "memory": 128
+    }
+  }
+]
