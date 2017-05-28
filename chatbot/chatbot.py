@@ -35,6 +35,7 @@ sys.path.append(root)
 from chatbot.textdata import TextData
 from chatbot.model import Model
 from classificator.predictor import Predictor as ClassificatorPredictor
+from chatbot.formRequest import FormRequest
 
 class Chatbot:
     """
@@ -63,7 +64,7 @@ class Chatbot:
         self.saver = None
         self.modelDir = ''  # Where the model is saved
         self.globStep = 0  # Represent the number of iteration for the current model
-
+        self.formRequest = None;
         # TensorFlow main session (we keep track for the daemon)
         self.sess = None
         self.classificator = None;
@@ -379,11 +380,22 @@ class Chatbot:
         2 - Форма запроса
         3 - Доставка
         '''
+        if self.formRequest:
+            self.formRequest.setAnswer(sentence)
+            question, isResult = self.formRequest.getNextQuestion()
+            if isResult:
+                self.formRequest = None
+            return question
+
         predictedIntent = self.classificator.predict(sentence).argmax()
         print('class>>>', predictedIntent)
 
         if predictedIntent == 1: 
             return "Вы можете нас насти по адресу Ростов-на-Дону, улица Социалистическая 162"
+        if predictedIntent == 2:
+            self.formRequest = FormRequest()
+            question, isResult = self.formRequest.getNextQuestion()
+            return question
         if predictedIntent == 3:
             return "У нас доставка по городу осуществляется бесплатно" 
 

@@ -12,7 +12,7 @@ $(function() {
 
     chatBotManager.on('newMessage', function(message) {
         chat_zone.append(
-            $("<p class='answer'></p>").text('Бот: ' + message)
+            $("<p class='answer'></p>").html('Бот: ' + message)
         );
 
         if(isNeedSroll()) {

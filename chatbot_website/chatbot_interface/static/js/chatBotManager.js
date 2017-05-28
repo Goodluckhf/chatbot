@@ -1,5 +1,3 @@
-
-
 (function(){
 	var chatBotManager = (new function() {
 		var self = this;
@@ -24,8 +22,4 @@
 	});
 
 	window.chatBotManager = chatBotManager;
-}()); 	
-
-
-
-
+}());
