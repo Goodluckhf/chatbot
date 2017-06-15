@@ -1,6 +1,8 @@
 /classificator/myModel.h5
 /classificator/myModel_1.h5
 *.h5
+*.txt
+*.npy
 /classificator/tokenDictionary.npy
 /**/__pycache__/**
 /*.pyc
