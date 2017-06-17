@@ -1,5 +1,12 @@
-import predictor
+import sys
+from pathlib import Path # if you haven't already done so
+root = str(Path(__file__).resolve().parents[1])
+sys.path.append(root)
+from classificator.predictor import Predictor as ClassificatorPredictor
 import numpy as np
+
+
+classificator = ClassificatorPredictor('second_model')
 
 def getNameByPred(pred):
     label = np.argmax(pred)
@@ -16,7 +23,7 @@ def getNameByPred(pred):
 def chat_loop():
     while True:
         user_input = str(input(">>>>>").lower().strip())
-        output = getNameByPred(predictor.predict(user_input,'second_model'))
+        output = getNameByPred(classificator.predict(user_input))
         print(output)
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ def getParams():
 	return {
 		'max_features' : 2279,
 		'maxlen' : 151,
-		'batch_size' : 10,
+		'batch_size' : 40,
 		'embedding_dims' : 100,
 		'filters' : 200,
 		'kernel_size' : 5,

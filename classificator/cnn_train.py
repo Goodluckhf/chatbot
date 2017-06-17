@@ -18,7 +18,7 @@ sys.path.append(root)
 from classificator import config
 from classificator import model
 from classificator import helpers
-from classificator import predictor
+from classificator.predictor import Predictor as ClassificatorPredictor
 from sklearn import metrics
 from keras.preprocessing import sequence
 import gc
@@ -113,9 +113,11 @@ print('x_train shape:', x_train.shape)
 print('x_test shape:', x_test.shape)
 
 print('Build model...')
+#model = model.getFitted(params['second_model'])
+#model.load_weights(params['second_model'])
 model = model.fit(x_train,y_train)
 model.save_weights(params['second_model'],overwrite=True)
-
-preds = predictor.predict_list(x_test,'second_model')
+classificator = ClassificatorPredictor('second_model')
+preds = classificator.predict_list(x_test)
 gc.collect()
 
