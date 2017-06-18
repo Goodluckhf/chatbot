@@ -39,7 +39,7 @@ class ChatbotManager(AppConfig):
             logger.info('Initializing bot...')
             ChatbotManager.bot = chatbot.Chatbot()
             logger.info('here...')
-            ChatbotManager.bot.main(['--corpus', 'lightweight', '--datasetTag', 'datamy', '--test', 'daemon', '--rootDir', chatbotPath])
+            ChatbotManager.bot.main(['--corpus', 'lightweight', '--datasetTag', 'datamy', '--test', 'daemon', '--initEmbeddings', '--rootDir', chatbotPath])
         else:
             logger.info('Bot already initialized.')
 

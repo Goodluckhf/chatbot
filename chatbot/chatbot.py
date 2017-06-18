@@ -115,25 +115,25 @@ class Chatbot:
         datasetArgs.add_argument('--corpus', choices=TextData.corpusChoices(), default=TextData.corpusChoices()[0], help='corpus on which extract the dataset.')
         datasetArgs.add_argument('--datasetTag', type=str, default='', help='add a tag to the dataset (file where to load the vocabulary and the precomputed samples, not the original corpus). Useful to manage multiple versions. Also used to define the file used for the lightweight format.')  # The samples are computed from the corpus if it does not exist already. There are saved in \'data/samples/\'
         datasetArgs.add_argument('--ratioDataset', type=float, default=1.0, help='ratio of dataset used to avoid using the whole dataset')  # Not implemented, useless ?
-        datasetArgs.add_argument('--maxLength', type=int, default=20, help='maximum length of the sentence (for input and output), define number of maximum step of the RNN')
+        datasetArgs.add_argument('--maxLength', type=int, default=13, help='maximum length of the sentence (for input and output), define number of maximum step of the RNN')
         datasetArgs.add_argument('--filterVocab', type=int, default=1, help='remove rarelly used words (by default words used only once). 0 to keep all words.')
 
         # Network options (Warning: if modifying something here, also make the change on save/loadParams() )
         nnArgs = parser.add_argument_group('Network options', 'architecture related option')
-        nnArgs.add_argument('--hiddenSize', type=int, default=512, help='number of hidden units in each RNN cell')
+        nnArgs.add_argument('--hiddenSize', type=int, default=300, help='number of hidden units in each RNN cell')
         nnArgs.add_argument('--numLayers', type=int, default=4, help='number of rnn layers')
         nnArgs.add_argument('--softmaxSamples', type=int, default=0, help='Number of samples in the sampled softmax loss function. A value of 0 deactivates sampled softmax')
         nnArgs.add_argument('--initEmbeddings', action='store_true', help='if present, the program will initialize the embeddings with pre-trained word2vec vectors')
-        nnArgs.add_argument('--embeddingSize', type=int, default=64, help='embedding size of the word representation')
-        nnArgs.add_argument('--embeddingSource', type=str, default="GoogleNews-vectors-negative300.bin", help='embedding file to use for the word representation')
+        nnArgs.add_argument('--embeddingSize', type=int, default=300, help='embedding size of the word representation')
+        nnArgs.add_argument('--embeddingSource', type=str, default="wiki.ru.bin", help='embedding file to use for the word representation')
 
         # Training options
         trainingArgs = parser.add_argument_group('Training options')
-        trainingArgs.add_argument('--numEpochs', type=int, default=30, help='maximum number of epochs to run')
+        trainingArgs.add_argument('--numEpochs', type=int, default=60, help='maximum number of epochs to run')
         trainingArgs.add_argument('--saveEvery', type=int, default=300, help='nb of mini-batch step before creating a model checkpoint')
-        trainingArgs.add_argument('--batchSize', type=int, default=100, help='mini-batch size')
+        trainingArgs.add_argument('--batchSize', type=int, default=30, help='mini-batch size')
         trainingArgs.add_argument('--learningRate', type=float, default=0.002, help='Learning rate')
-        trainingArgs.add_argument('--dropout', type=float, default=0.8, help='Dropout rate (keep probabilities)')
+        trainingArgs.add_argument('--dropout', type=float, default=0.75, help='Dropout rate (keep probabilities)')
 
         return parser.parse_args(args)
 
@@ -418,9 +418,9 @@ class Chatbot:
         """
 
         # Fetch embedding variables from model
-        with tf.variable_scope("embedding_rnn_seq2seq/rnn/embedding_wrapper", reuse=True):
+        with tf.variable_scope("embedding_attention_seq2seq/rnn/embedding_wrapper", reuse=True):
             em_in = tf.get_variable("embedding")
-        with tf.variable_scope("embedding_rnn_seq2seq/embedding_rnn_decoder", reuse=True):
+        with tf.variable_scope("embedding_attention_seq2seq/embedding_attention_decoder", reuse=True):
             em_out = tf.get_variable("embedding")
 
         # Disable training for embeddings
